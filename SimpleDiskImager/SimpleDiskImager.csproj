@@ -32,4 +32,8 @@
         </Page>
         <Compile Update="**\*.xaml.cs" SubType="Code" DependentUpon="%(Filename)" />
     </ItemGroup>
+    
+    <Target Name="ZipOutputPath" AfterTargets="Publish">
+        <ZipDirectory SourceDirectory="$(PublishDir)" DestinationFile="$(MSBuildProjectDirectory)\SimpleDiskImager.zip" />
+    </Target>
 </Project>
