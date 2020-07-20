@@ -1,0 +1,70 @@
+<Window x:Class="SimpleDiskImager.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SimpleDiskImager"
+        mc:Ignorable="d"
+        Title="Simple Disk Imager" MinHeight="250" MinWidth="350"
+        Loaded="Window_Loaded" ResizeMode="NoResize" SizeToContent="WidthAndHeight">
+    <Window.Resources>
+        <local:DiskSizeConverter x:Key="DiskSizeConverter" />
+    </Window.Resources>
+    <Grid Margin="4">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition  />
+            <ColumnDefinition Width="Auto"  />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Label Content="_Image:" HorizontalAlignment="Right" VerticalAlignment="Center" Target="{Binding ElementName=txtImagePath}" Grid.Column="0" Grid.Row="0" />
+        <TextBox x:Name="txtImagePath" Grid.Column="1" Grid.Row="0" />
+        <Button Content="..." Click="BrowseForImage_Click" Grid.Column="2" Grid.Row="0" />
+
+        <Label Content="_Drive:" HorizontalAlignment="Right" VerticalAlignment="Center" Target="{Binding ElementName=cmbDisk}" Grid.Column="0" Grid.Row="1" />
+        <ComboBox x:Name="cmbDisk" MinHeight="78" RenderTransformOrigin="0.5,0.5" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
+            <ComboBox.RenderTransform>
+                <RotateTransform x:Name="ComboAngleTranform" />
+            </ComboBox.RenderTransform>
+            <ComboBox.Resources>
+                <Storyboard x:Key="ComboWiggleStory">
+                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ComboAngleTranform" Storyboard.TargetProperty="Angle">
+                        <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="-5"/>
+                        <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="5"/>
+                        <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="-10"/>
+                        <EasingDoubleKeyFrame KeyTime="0:0:0.4" Value="10"/>
+                        <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="0"/>
+                    </DoubleAnimationUsingKeyFrames>
+                </Storyboard>
+            </ComboBox.Resources>
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="Disk" Grid.Row="0" Grid.Column="0" />
+                        <TextBlock Text="{Binding DiskNumber}" FontWeight="Bold" Grid.Row="0" Grid.Column="1" />
+                        <TextBlock Text="{Binding Capacity, Converter={StaticResource DiskSizeConverter}}" Grid.Row="1" Grid.Column="1" />
+                        <TextBlock Text="{Binding Name}" Grid.Row="2" Grid.Column="1" />
+                    </Grid>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <Button Content="_Write Image" Click="WriteImage_Click" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" />
+        <ProgressBar x:Name="prog" Minimum="0" Maximum="100" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" MinHeight="30" />
+    </Grid>
+</Window>

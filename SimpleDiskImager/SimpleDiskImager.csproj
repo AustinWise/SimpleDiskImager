@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <!--<LanguageTargets>$(MSBuildExtensionsPath)\$(VisualStudioVersion)\Bin\Microsoft.CSharp.targets</LanguageTargets>-->
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net472</TargetFramework>
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Reference Include="PresentationCore" />
+        <Reference Include="PresentationFramework" />
+        <Reference Include="System.Xaml" />
+        <Reference Include="WindowsBase" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Austin.ThumbWriter\Austin.ThumbWriter.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- App.xaml -->
+        <ApplicationDefinition Include="App.xaml">
+            <SubType>Designer</SubType>
+            <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+        </ApplicationDefinition>
+
+        <!-- XAML elements -->
+        <Page Include="**\*.xaml" Exclude="App.xaml">
+            <SubType>Designer</SubType>
+            <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+        </Page>
+        <Compile Update="**\*.xaml.cs" SubType="Code" DependentUpon="%(Filename)" />
+    </ItemGroup>
+</Project>

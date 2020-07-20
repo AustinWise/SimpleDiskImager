@@ -1,0 +1,85 @@
+import "vds.idl";
+
+[
+    uuid(6ef80cc2-8ea9-4731-b7ee-2d88f25c1c86),
+    helpstring("Austin VDS Type Library"),
+    lcid(0x0409),
+    version(1.0)
+]
+library VdsWrapper
+{
+	//vds.idl
+	interface IVdsServiceLoader;
+	interface IVdsService;
+	interface IVdsServiceUninstallDisk;
+	interface IVdsServiceHba;
+	interface IVdsServiceIscsi;
+	interface IVdsServiceInitialization;
+	interface IVdsHbaPort;
+	interface IVdsIscsiInitiatorAdapter;
+	interface IVdsIscsiInitiatorPortal;
+	interface IVdsDiskPartitionMF;
+	interface IVdsDiskPartitionMF2;
+	interface IVdsVolumeMF;
+	interface IVdsVolumeMF2;
+	interface IVdsVolumeMF3;
+	interface IVdsVolumeShrink;
+	interface IVdsSubSystemImportTarget;
+	interface IVdsIscsiPortalLocal;
+	interface IVdsServiceSAN;
+	interface IVdsServiceSw;
+
+	enum _VDS_QUERY_PROVIDER_FLAG;
+
+	//vdshp.idl
+	interface IVdsHwProvider;
+	interface IVdsHwProviderType;
+	interface IVdsHwProviderType2;
+	interface IVdsHwProviderStoragePools;
+	interface IVdsLun;
+	interface IVdsLun2;
+	interface IVdsLunNaming;
+	interface IVdsLunNumber;
+	interface IVdsLunControllerPorts;
+	interface IVdsLunMpio;
+	interface IVdsSubSystem;
+	interface IVdsSubSystemNaming;
+	interface IVdsSubSystemIscsi;
+	interface IVdsSubSystem2;
+	interface IVdsSubSystemInterconnect;
+	interface IVdsControllerPort;
+	interface IVdsController;
+	interface IVdsControllerControllerPort;
+	interface IVdsDrive;
+	interface IVdsDrive2;
+	interface IVdsLunPlex;
+	interface IVdsIscsiPortal;
+	interface IVdsIscsiTarget;
+	interface IVdsIscsiPortalGroup;
+	interface IVdsStoragePool;
+	interface IVdsMaintenance;
+
+	//vdssp.idl
+	interface IVdsSwProvider;
+	interface IVdsPack;
+	interface IVdsPack2;
+	interface IVdsDisk;
+	interface IVdsDisk2;
+	interface IVdsDisk3;
+	interface IVdsDiskOnline;
+	interface IVdsAdvancedDisk;
+	interface IVdsAdvancedDisk2;
+	interface IVdsAdvancedDisk3;
+	interface IVdsCreatePartitionEx;
+	interface IVdsRemovable;
+	interface IVdsVolume;
+	interface IVdsVolume2;
+	interface IVdsVolumeOnline;
+	interface IVdsVolumePlex;
+
+	[uuid(9c38ed61-d565-4728-aeee-c80952f0ecde)]
+	coclass VdsServiceLoader
+	{
+		interface IVdsServiceLoader;
+	}
+};
