@@ -34,6 +34,10 @@
     </ItemGroup>
     
     <Target Name="ZipOutputPath" AfterTargets="Publish">
-        <ZipDirectory SourceDirectory="$(PublishDir)" DestinationFile="$(MSBuildProjectDirectory)\SimpleDiskImager.zip" />
+        <PropertyGroup>
+            <PublishZipFile>$(MSBuildProjectDirectory)\SimpleDiskImager.zip</PublishZipFile>
+        </PropertyGroup>
+        <Delete Files="$(PublishZipFile)" />
+        <ZipDirectory SourceDirectory="$(PublishDir)" DestinationFile="$(PublishZipFile)" />
     </Target>
 </Project>

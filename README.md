@@ -4,6 +4,10 @@
 The goal of this project is to provide a simple Windows program that write USB
 disk images to USB thumb drives.
 
+Prebuilt binaries are avail in the
+[GitHub Release](https://github.com/AustinWise/SimpleDiskImager/releases)
+page.
+
 Unlike
 [Win32 Disk Imager](https://sourceforge.net/projects/win32diskimager/),
 this program will slightly modify the contents of image before writing.
@@ -36,6 +40,12 @@ correctly on a USB thumb drive.
 The disk image loading code is based on
 [ZFS Sharp](https://github.com/AustinWise/ZfsSharp),
 so several more formats could be potentially ported over, such as VHDX and VDI.
+
+## Building
+
+Requires Visual Studio 2019 or later. Run `build.cmd`. If you are using a Visual
+Studio Command Prompt, it will use the compilers from that, otherwise it will
+locate the latest version of Visual Studio to build.
 
 ## TODO
 
