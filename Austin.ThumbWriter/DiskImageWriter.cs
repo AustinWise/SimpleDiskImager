@@ -32,12 +32,26 @@ namespace Austin.ThumbWriter
             {
                 throw new InvalidOperationException("Disk capacity is not a multiple of sector size.");
             }
-            if (image.Length % Program.SECTOR_SIZE != 0)
-            {
-                throw new InvalidOperationException("Disk image length is not a multiple of sector size.");
-            }
 
-            var partInfo = getParitionInfo(image);
+            IPartitioningInfo partInfo;
+            bool imageLengthOk = image.Length % Program.SECTOR_SIZE == 0;
+            bool hasPartitions = getParitionInfo(image, out partInfo);
+
+            if (!imageLengthOk)
+            {
+                if (hasPartitions)
+                {
+                    throw new InvalidOperationException($"Found partition info, but image file length is not a multiple of sector size ({SECTOR_SIZE} bytes). Maybe the file got partially truncated?");
+                }
+                else
+                {
+                    throw new PartitionInformationMissingException();
+                }
+            }
+            else if (!hasPartitions)
+            {
+                throw new PartitionInformationMissingException();
+            }
 
             var copyPlan = CreateCopyPlan(image, partInfo);
 
@@ -138,15 +152,22 @@ namespace Austin.ThumbWriter
             return diskImageBitmap;
         }
 
-        static IPartitioningInfo getParitionInfo(DiskImage image)
+        static bool getParitionInfo(DiskImage image, out IPartitioningInfo info)
         {
             GptPartitioningInfo gpt;
             if (GptPartitioningInfo.TryGetGptInfo(image, out gpt))
-                return gpt;
+            {
+                info = gpt;
+                return true;
+            }
             MbrPartitioningInfo mbr;
             if (MbrPartitioningInfo.TryGetMbrInfo(image, out mbr))
-                return mbr;
-            throw new PartitionInformationMissingException();
+            {
+                info = mbr;
+                return true;
+            }
+            info = null;
+            return false;
         }
     }
 }
