@@ -92,8 +92,8 @@ namespace Austin.ThumbWriter
             }
 
             var ret = new List<FileExtent>();
-            int startLba = -1;
-            int currentLba;
+            long startLba = -1;
+            long currentLba;
             for (currentLba = 0; currentLba < diskImageBitmap.Length; currentLba++)
             {
                 if (startLba != -1 && (currentLba - startLba) >= MAX_CHUNK_LBAS)
@@ -102,7 +102,7 @@ namespace Austin.ThumbWriter
                     startLba = -1;
                 }
 
-                if (diskImageBitmap[currentLba])
+                if (diskImageBitmap[checked((int)currentLba)])
                 {
                     if (startLba == -1)
                         startLba = currentLba;
