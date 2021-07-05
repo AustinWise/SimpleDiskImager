@@ -2,6 +2,7 @@ using Austin.ThumbWriter;
 using Austin.ThumbWriter.DiskImages;
 using Austin.ThumbWriter.VirtualDiskService;
 using Microsoft.Win32;
+using Microsoft.WindowsAPICodePack.Taskbar;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -30,6 +31,7 @@ namespace SimpleDiskImager
         private Task mDiskLoadingTask = Task.CompletedTask;
         private bool mWritingImage;
         private List<Disk> mExistingDisks;
+        private TaskbarManager mTaskbarManager;
 
         public MainWindow()
         {
@@ -37,6 +39,11 @@ namespace SimpleDiskImager
             this.IsEnabled = false;
 
             mWiggleStory = (Storyboard)cmbDisk.FindResource("ComboWiggleStory");
+
+            if (TaskbarManager.IsPlatformSupported)
+            {
+                mTaskbarManager = TaskbarManager.Instance;
+            }
         }
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
@@ -184,6 +191,7 @@ namespace SimpleDiskImager
 
             try
             {
+                mTaskbarManager?.SetProgressState(TaskbarProgressBarState.Normal);
                 using (var diskImage = DiskImageFactory.Create(imagePath))
                 {
                     await DiskImageWriter.WriteImageToDisk(disk, diskImage, new Progress<int>(onProgress));
@@ -206,12 +214,14 @@ namespace SimpleDiskImager
             }
             catch (Exception ex)
             {
+                mTaskbarManager?.SetProgressState(TaskbarProgressBarState.Error);
                 MessageBox.Show(this, "Failed to write image: " + ex.Message);
             }
             finally
             {
                 mWritingImage = false;
                 mShouldWiggleOnDiskLoad = false;
+                mTaskbarManager?.SetProgressState(TaskbarProgressBarState.NoProgress);
                 this.IsEnabled = true;
                 QueueDiskLoading();
             }
@@ -220,6 +230,7 @@ namespace SimpleDiskImager
         private void onProgress(int progress)
         {
             prog.Value = progress;
+            mTaskbarManager?.SetProgressValue(progress, 100);
         }
 
         IntPtr hwndHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
