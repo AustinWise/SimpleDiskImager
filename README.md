@@ -49,10 +49,6 @@ locate the latest version of Visual Studio to build.
 
 ## TODO
 
-* Figure out thumb drives written by Win32 Disk Imager and Rufus don't work.
-  Any advice on how to speed up the cycle from editing code in the bootloader
-  to testing it on hardware would be appreciated, as currently it is slow going.
-  Also suggestions for diffing disk images would be appreciated.
 * Set up automated build and release system.
 * Prevent Windows from trying to mount the device by using `FSCTL_LOCK_VOLUME`.
   This is a little difficult as `FSCTL_LOCK_VOLUME` operates on volumes. Zero or
