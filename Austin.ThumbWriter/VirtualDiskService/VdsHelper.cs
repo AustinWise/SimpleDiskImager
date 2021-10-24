@@ -28,7 +28,7 @@ namespace Austin.ThumbWriter.VirtualDiskService
             //TODO: Figure out if the thread really should be MTA.
             //Also, from a .NET perspective, the RunContinuationsAsynchronously is totally unneeded.
             //We know exactly what is happening on the thread when we call SetResult, so there is no deadlock.
-            //However as a belt an suspenders measure, we queue the continuation to the ThreadPool
+            //However as a belt and suspenders measure, we queue the continuation to the ThreadPool
             //to prevent any COM MTA stuff from effecting callbacks.
             var tcs = new TaskCompletionSource<T>(TaskCreationOptions.RunContinuationsAsynchronously);
             var t = new Thread(() =>
