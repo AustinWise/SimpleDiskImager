@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.MemoryMappedFiles;
 using System.Runtime.InteropServices;
@@ -50,12 +49,6 @@ namespace Austin.ThumbWriter.DiskImages
             mBuffer.Dispose();
             mViewAcessor.Dispose();
             mFile.Dispose();
-        }
-
-        public override List<FileExtent> GetFileMap()
-        {
-            //TODO: add support for sparse files?
-            return base.GetFileMap();
         }
     }
 }
